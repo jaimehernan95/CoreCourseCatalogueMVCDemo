@@ -8,5 +8,9 @@ namespace CourseCatalogMVCDemo.Models
 {
     public class AppDBContext : DBContext
     {
+        public AppDBContext(DbContextOptions<AppDBContext> options) : base(options)
+        {
+
+        }
     }
 }
