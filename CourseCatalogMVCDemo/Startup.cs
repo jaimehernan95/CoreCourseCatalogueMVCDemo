@@ -20,14 +20,16 @@ namespace CourseCatalogMVCDemo
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            IServiceCollection serviceCollection = services.AddDbContext<AppDBContext>(options =>
-            options.UseSqlServer(Configuration.GetConnectionString("AppDBConfiguration")));
+            services.AddDbContext<AppDBContext(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("AppDBConnection")));
 
-            /*services.AddScoped<ICategoryRepository, MockCategoryRepository>();*/
+           
             services.AddScoped<ICategoryRepository, EFCategoryRepository>();
-            /*services.AddScoped<ICourseRepository, MockCourseRepository>();*/
-            services.AddScoped<ICourseRepository, EFCourseRepository>() ;
-            /*services.AddRazorPages();*/
+          
+            services.AddScoped<ICourseRepository, EFCourseRepository>();
+
+            services.AddScoped<ShoppingCart>(s => ShoppingCart.GetShopppingCart(s));
+            services.AddHttpContextAccessor();
             services.AddControllersWithViews();
         }
 
@@ -47,6 +49,7 @@ namespace CourseCatalogMVCDemo
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseSession();
 
             app.UseRouting();
 
